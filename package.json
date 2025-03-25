@@ -1,0 +1,23 @@
+{
+  "name": "appointment-bot",
+  "version": "1.0.0",
+  "description": "Telegram bot for making an appointment with a psychologist",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon --env-file=.env app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sedalit/appointment-bot-js.git"
+  },
+  "author": "Vladislav Agarkov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sedalit/appointment-bot-js/issues"
+  },
+  "homepage": "https://github.com/sedalit/appointment-bot-js#readme",
+  "dependencies": {
+    "nodemon": "^3.1.9",
+    "telegraf": "^4.16.3"
+  }
+}
