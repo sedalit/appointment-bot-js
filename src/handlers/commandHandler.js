@@ -3,6 +3,16 @@ const answers = require('../answers.json');
 
 module.exports.CommandHandler = (bot) => {
     bot.start( async (ctx) => {
-        await ctx.replyWithHTML(answers.start);
+        const {message, session } = ctx;
+
+        delete session.questionNumber;
+        delete session.answers;
+
+        await ctx.replyWithChatAction('typing');
+        setTimeout(async () => {
+            await ctx.replyWithHTML(answers.start, InlineKeyboard.startButtons());
+        }, 500);
+
+        console.log(`- В бот вошёл: ${message.chat.id} - ${message.chat.username}`);
     });
 };
