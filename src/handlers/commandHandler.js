@@ -8,6 +8,8 @@ module.exports.CommandHandler = (bot) => {
         delete session.questionNumber;
         delete session.answers;
 
+        ctx.scene.leave();
+
         await ctx.replyWithChatAction('typing');
         setTimeout(async () => {
             await ctx.replyWithHTML(answers.start, InlineKeyboard.startButtons());
