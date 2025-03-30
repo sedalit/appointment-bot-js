@@ -13,13 +13,22 @@ module.exports.InlineKeyboard = {
             [Markup.button.callback('Я внимательно прочитал инструкцию', 'startTest')]
         ]).reply_markup;
     },
-    questionAnswerButtons: () => {
+    testButtonsWithoutBack: () => {
         return Markup.inlineKeyboard([
             [Markup.button.callback('1', 'answerOne')],
             [Markup.button.callback('2', 'answerTwo')],
             [Markup.button.callback('3', 'answerThree')],
             [Markup.button.callback('4', 'answerFour')]
-        ]).reply_markup;
+        ]);
+    },
+    testButtonsWithBack: () => {
+        return Markup.inlineKeyboard([
+            [Markup.button.callback('1', 'answerOne')],
+            [Markup.button.callback('2', 'answerTwo')],
+            [Markup.button.callback('3', 'answerThree')],
+            [Markup.button.callback('4', 'answerFour')],
+            [Markup.button.callback('Назад', 'back')]
+        ]);
     },
     toMainMenu: () => {
         return Markup.inlineKeyboard([

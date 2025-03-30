@@ -17,14 +17,14 @@ module.exports.TestController = () => {
         let { callbackQuery, session } = ctx;
         let from = callbackQuery.from;
 
-        session.questionNumber = 1;
+        session.questionNumber = 0;
         session.answers = [];
 
         console.log(`- Тест начал: ${from.id} - ${from.username}`);
 
         await ctx.editMessageText(answers.testQuestions[0], {
             parse_mode: 'HTML',
-            reply_markup: InlineKeyboard.questionAnswerButtons()
+            reply_markup: InlineKeyboard.testButtonsWithoutBack().reply_markup
         });
     });
     
@@ -52,22 +52,37 @@ module.exports.TestController = () => {
         await this.appendAnswer(ctx, 3);
     });
 
+    testController.action('back', async (ctx) => {
+        await this.back(ctx);
+    });
+
+    this.back = async (ctx) => {
+        let { session } = ctx;
+
+        session.answers.pop();
+        session.questionNumber--;
+
+        await ctx.deleteMessage();
+        if (session.questionNumber <= 0) {
+            await ctx.replyWithHTML(answers.testQuestions[session.questionNumber], InlineKeyboard.testButtonsWithoutBack());
+        } else {
+            await ctx.replyWithHTML(answers.testQuestions[session.questionNumber], InlineKeyboard.testButtonsWithBack());
+        }
+    }
+
     this.appendAnswer = async (ctx, answer) => {
         let { callbackQuery, session } = ctx;
 
         session.answers.push(answer);
-
+        session.questionNumber++;
+        
         if (answers.testQuestions[session.questionNumber] === undefined) {
             this.calculateAndAnswerResult(ctx);
             return;
         }
 
-        await ctx.editMessageText(answers.testQuestions[session.questionNumber], {
-            parse_mode: 'HTML',
-            reply_markup: InlineKeyboard.questionAnswerButtons()
-        });
-
-        session.questionNumber++;
+        await ctx.deleteMessage();
+        await ctx.replyWithHTML(answers.testQuestions[session.questionNumber], InlineKeyboard.testButtonsWithBack());
 
         console.log(`- ${callbackQuery.from.id} ответил на вопрос №${session.questionNumber - 1}: ${answer}`);
     }
