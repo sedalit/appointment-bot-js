@@ -7,13 +7,17 @@ const { CallbackHandler } = require('./src/handlers/callbackHandler');
 const { TextHandler } = require('./src/handlers/textHandler');
 
 const { TestController } = require('./src/controllers/testController');
-
-const stage = new Stage([TestController()]);
+const { AppointmentController } = require('./src/controllers/appointmentController');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
+const stages = new Stage;
+
+stages.register(TestController());
+stages.register(AppointmentController(bot));
+
 bot.use(new LocalSession({database: './src/session/db.json'}).middleware());
-bot.use(stage.middleware());
+bot.use(stages.middleware());
 
 CommandHandler(bot);
 CallbackHandler(bot);
