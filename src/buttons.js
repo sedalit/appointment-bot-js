@@ -1,10 +1,11 @@
 const { Telegraf, Markup } = require('telegraf');
+const { button } = require('telegraf/markup');
 
 module.exports.InlineKeyboard = {
     startButtons: () => {
         return Markup.inlineKeyboard([
             [Markup.button.callback('Начать тест Бека', 'enterTestScene')],
-            [Markup.button.callback('Записаться на приём', 'makeAppointment')]
+            [Markup.button.callback('Записаться на приём', 'enterAppointmentScene')]
         ]);
     },
     startTestButtons: () => {
@@ -24,5 +25,14 @@ module.exports.InlineKeyboard = {
         return Markup.inlineKeyboard([
             [Markup.button.callback('В главное меню', 'toMainMenu')]
         ]).reply_markup;
+    },
+    customMarkup: (buttonsArray = []) => {
+        let result = [];
+
+        buttonsArray.forEach((button) => {
+            result.push([Markup.button.callback(button[0], button[1])]);
+        });
+        
+        return Markup.inlineKeyboard(result);
     }
 };
